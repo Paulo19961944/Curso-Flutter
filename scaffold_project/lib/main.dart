@@ -34,23 +34,86 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        body: Row(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          Icon(
-            Icons.phone,
-            size: 32,
-          ),
-          Padding(
-              padding: EdgeInsets.only(left: 8),
-              child: Center(
-                child: Text(
-                  'Meu Aplicativo'
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Icon(
+                    Icons.phone_android_rounded,
+                    size: 32,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Center(
+                        child: Text(
+                          'Meu Aplicativo',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                  ),
+                ],
                 ),
-              ),
-          ),
-        ],
+              ],
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Icon(
+                    Icons.person,
+                    size: 32,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Center(
+                        child: Text(
+                          'Meu Avatar',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                  ),
+                ],
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Icon(
+                    Icons.lock_clock,
+                    size: 32,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Center(
+                        child: Text(
+                          'Minha Disponibilidade',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                  ),
+                ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
