@@ -37,12 +37,12 @@ class _MyAppState extends State<MyApp> {
           children: [
             // Exibe a primeira imagem com BoxFit.cover
             Image.asset(
-              'assets/images/Cat.png', // Caminho da imagem
+              'assets/images/Cat.jpg', // Caminho da imagem
               fit: BoxFit.cover, // Imagem cobre a área disponível
             ),
             // Exibe a segunda imagem com largura e altura específicas
             Image.asset(
-              'assets/images/Dog.png', // Caminho da imagem
+              'assets/images/Dog.jpg', // Caminho da imagem
               width: 200,  // Largura de 200px
               height: 200, // Altura de 200px
             ),
