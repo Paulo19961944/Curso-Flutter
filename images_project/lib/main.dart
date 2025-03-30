@@ -33,20 +33,30 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            // Exibe a primeira imagem com BoxFit.cover
-            Image.asset(
-              'assets/images/Cat.jpg', // Caminho da imagem
-              fit: BoxFit.cover, // Imagem cobre a área disponível
-            ),
-            // Exibe a segunda imagem com largura e altura específicas
-            Image.asset(
-              'assets/images/Dog.jpg', // Caminho da imagem
-              width: 200,  // Largura de 200px
-              height: 200, // Altura de 200px
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Exibe a primeira imagem com BoxFit.cover
+              Image.asset(
+                'assets/images/Cat.jpg', // Caminho da imagem
+                fit: BoxFit.cover, // Imagem cobre a área disponível
+              ),
+              // Exibe a segunda imagem com largura e altura específicas
+              Image.asset(
+                'assets/images/Dog.jpg', // Caminho da imagem
+                fit: BoxFit.cover, // Imagem cobre a área disponível
+                /*
+                width: 200,  // Largura de 200px
+                height: 200, // Altura de 200px
+                */
+              ),
+              // Exibe a Imagem da Internet
+              Image.network(
+                'https://cdn.pixabay.com/photo/2022/11/07/16/09/outdoor-7576744_1280.jpg', // Link da Imagem
+                fit: BoxFit.cover, // Imagem cobre a área disponível
+              ),
+            ],
+          ),
         ),
       ),
     );
