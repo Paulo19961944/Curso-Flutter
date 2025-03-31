@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 // Classe Privada MyAppState herda de State
 class _MyAppState extends State<MyApp> {
+  // Variáveis dos Numeros
   String numero = '0';
   String operacao = '';
   double primeiroNumero = 0;
@@ -144,8 +145,7 @@ void calcularResultado() {
       if (num2 != 0) {
         resultado = primeiroNumero / num2;
       } else {
-        resultado = double.nan; // Isso pode ser tratado de outra forma, se necessário
-        print('Impossível dividir por 0!');
+        resultado = 0;
       }
       break;
 
@@ -162,7 +162,6 @@ void calcularResultado() {
 
   primeiroNumero = 0; // Reseta o primeiro número para evitar cálculos acumulados
 }
-
 
   @override
   Widget build(BuildContext context) {
