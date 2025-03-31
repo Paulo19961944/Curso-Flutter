@@ -20,57 +20,35 @@ class _MyAppState extends State<MyApp> {
   String numero = '0';
 
   void calcular(String tecla) {
-    switch(tecla){
-      case '0': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '1': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '2': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '3': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '4': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '5': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '6': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '7': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
-      case '8': 
-        setState(() {
-          numero += tecla;
-        });
-        break;
+    switch(tecla) {
+      // Caso o valor for numerico, captura o numero
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
       case '9': 
+      case ',':
         setState(() {
+          // Captura o número
           numero += tecla;
+          
+          // Substitui a vírgula por ponto
+          numero = numero.replaceAll(',', '.');
+          
+          // Verifica se o número é inteiro ou com vírgula
+          if (!numero.contains('.')) {
+            int numeroInt = int.parse(numero);
+            numero = numeroInt.toString();
+          } 
         });
         break;
+      
+      // Reseta o Valor em 0
       case 'AC':
         setState(() {
           numero = '0';
@@ -288,12 +266,12 @@ class _MyAppState extends State<MyApp> {
                       fontSize: 48,
                     ),
                   ),
-                ),
+                ),                
                 GestureDetector(
                   onTap: (){
-                    calcular('.');
+                    calcular(',');
                   },
-                  child: Text('.',
+                  child: Text(',',
                     style: TextStyle(
                       fontSize: 48,
                     ),
