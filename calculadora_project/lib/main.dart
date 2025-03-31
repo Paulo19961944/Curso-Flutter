@@ -18,6 +18,8 @@ class MyApp extends StatefulWidget {
 // Classe Privada MyAppState herda de State
 class _MyAppState extends State<MyApp> {
   String numero = '0';
+  String operacao = '';
+  double primeiroNumero = 0;
 
   void calcular(String tecla) {
     switch(tecla) {
@@ -35,29 +37,123 @@ class _MyAppState extends State<MyApp> {
       case ',':
         setState(() {
           // Captura o número
-          numero += tecla;
-          
+          if (numero == '0') {
+            numero = tecla; // Substitui o 0 inicial pelo número digitado
+          } else {
+            numero += tecla; // Adiciona o número à string
+          }
+
           // Substitui a vírgula por ponto
           numero = numero.replaceAll(',', '.');
-          
-          // Verifica se o número é inteiro ou com vírgula
-          if (!numero.contains('.')) {
-            int numeroInt = int.parse(numero);
-            numero = numeroInt.toString();
-          } 
         });
         break;
-      
+
+      // Faz a Adição
+      case '+':
+        setState(() {
+          if (operacao.isNotEmpty) {
+            calcularResultado();
+          }
+          operacao = tecla;
+          primeiroNumero = double.parse(numero);
+          numero = '0'; // Resetando número após a operação
+        });
+        break;
+
+      // Faz a Subtração
+      case '-':
+        setState(() {
+          if (operacao.isNotEmpty) {
+            calcularResultado();
+          }
+          operacao = tecla;
+          primeiroNumero = double.parse(numero);
+          numero = '0'; // Resetando número após a operação
+        });
+        break;
+
+      // Faz a Multiplicação
+      case 'X':
+        setState(() {
+          if (operacao.isNotEmpty) {
+            calcularResultado();
+          }
+          operacao = tecla;
+          primeiroNumero = double.parse(numero);
+          numero = '0'; // Resetando número após a operação
+        });
+        break;
+
+      // Faz a Divisão
+      case '/':
+        setState(() {
+          if (operacao.isNotEmpty) {
+            calcularResultado();
+          }
+          operacao = tecla;
+          primeiroNumero = double.parse(numero);
+          numero = '0'; // Resetando número após a operação
+        });
+        break;
+
+      // Calcula o Resultado
+      case '=':
+        setState(() {
+          calcularResultado();
+          operacao = ''; // Reseta operação após o cálculo
+        });
+        break;
+
       // Reseta o Valor em 0
       case 'AC':
         setState(() {
           numero = '0';
+          primeiroNumero = 0; // Reseta o primeiro número
+          operacao = ''; // Reseta a operação
         });
         break;
+
       default:
         numero += tecla;
         break;
     }
+  }
+
+  // Função para calcular o resultado com base na operação
+  void calcularResultado() {
+    double resultado;
+    double num2 = double.parse(numero);
+
+    switch (operacao) {
+      case '+':
+        resultado = primeiroNumero + num2;
+        break;
+      case '-':
+        resultado = primeiroNumero - num2;
+        break;
+      case 'X':
+        resultado = primeiroNumero * num2;
+        break;
+      case '/':
+        if (num2 != 0) {
+          resultado = primeiroNumero / num2;
+        } else {
+          resultado = double.nan; // Isso pode ser tratado de outra forma, se necessário
+          print('Impossível dividir por 0!');
+        }
+        break;
+      default:
+        resultado = num2; // No caso de um valor simples, usamos o número diretamente
+    }
+
+    // Formata o número para não exibir casas decimais se for inteiro
+    if (resultado == resultado.toInt()) {
+      numero = resultado.toInt().toString(); // Se for inteiro, remove as casas decimais
+    } else {
+      numero = resultado.toStringAsFixed(2).replaceAll('.', ','); // Se não, mantém 2 casas decimais
+    }
+
+    primeiroNumero = 0; // Reseta o primeiro número para evitar cálculos acumulados
   }
 
   @override
@@ -277,9 +373,14 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 ),
-                Text('=', 
-                  style: TextStyle(
-                    fontSize: 48,
+                GestureDetector(
+                  onTap: (){
+                    calcular('=');
+                  },
+                  child: Text('=', 
+                    style: TextStyle(
+                      fontSize: 48,
+                    ),
                   ),
                 ),
                 GestureDetector(
