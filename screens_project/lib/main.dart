@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Tela1(),
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => Tela1(),
+        '/tela2' : (context) => Tela2(),
+      },
     );
   }
 }
@@ -48,7 +52,10 @@ class Tela1 extends StatelessWidget {
                 ),
                 // Ação ao Pressionar a Tela
                 onPressed: () {
-                  // Navega para a Tela 2
+                  //Navega para a Tela 2
+                  Navigator.pushNamed(context, '/tela2');
+                  /*
+                  // Método sem rotas nomeadas
                   Navigator.push(
                     context, 
                     // Cria a Rota para a Tela 2
@@ -56,7 +63,7 @@ class Tela1 extends StatelessWidget {
                       builder: (context) {
                       return Tela2();
                     }),
-                  );
+                  );*/
                 },
               ),
           ),
@@ -96,9 +103,12 @@ class Tela2 extends StatelessWidget {
                 // Ação ao Clicar no Botão
                 onPressed: () {
                   // Retorna a Tela Anterior
+                  Navigator.pushNamed(context, '/');
+                  /*
+                  // Método para retornar sem as rotas nomeadas
                   Navigator.pop(
                     context, 
-                  );
+                  );*/
                 },
               ),
           ),
