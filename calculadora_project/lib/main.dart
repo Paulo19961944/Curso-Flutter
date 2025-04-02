@@ -1,4 +1,6 @@
 // Importa o Material App
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // Função Principal
@@ -23,145 +25,120 @@ class _MyAppState extends State<MyApp> {
   double primeiroNumero = 0;
 
   void calcular(String tecla) {
-  switch(tecla) {
-    // Caso o valor for numerico, captura o numero
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9': 
-    case ',':
-      setState(() {
-        // Captura o número
-        if (numero == '0') {
-          numero = tecla; // Substitui o 0 inicial pelo número digitado
+    switch (tecla) {
+      // Caso o valor for numerico, captura o numero
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9': 
+      case ',':
+        setState(() {
+          // Captura o número
+          if (numero == '0') {
+            numero = tecla; // Substitui o 0 inicial pelo número digitado
+          } else {
+            numero += tecla; // Adiciona o número à string
+          }
+
+          // Substitui a vírgula por ponto
+          numero = numero.replaceAll(',', '.');
+        });
+        break;
+
+      // Operações matemáticas
+      case '+':
+      case '-':
+      case 'X':
+      case '/':
+      case '^':
+        setState(() {
+          if (operacao.isNotEmpty) {
+            calcularResultado();
+          }
+          operacao = tecla;
+          primeiroNumero = double.parse(numero);
+          numero = '0'; // Resetando número após a operação
+        });
+        break;
+
+      // Calcula o Resultado
+      case '=':
+        setState(() {
+          calcularResultado();
+          operacao = ''; // Reseta operação após o cálculo
+        });
+        break;
+
+      // Reseta o Valor em 0
+      case 'AC':
+        setState(() {
+          numero = '0';
+          primeiroNumero = 0; // Reseta o primeiro número
+          operacao = ''; // Reseta a operação
+        });
+        break;
+
+      // Apaga um dígito
+      case '<X':
+        setState(() {
+          if (numero.length > 1) {
+            numero = numero.substring(0, numero.length - 1);
+          } else {
+            numero = '0'; // Se restar um único dígito, reseta para 0
+          }
+        });
+        break;
+
+      default:
+        numero += tecla;
+        break;
+    }
+  }
+
+  // Função para calcular o resultado com base na operação
+  void calcularResultado() {
+    double resultado;
+    double num2 = double.parse(numero);
+
+    switch (operacao) {
+      case '+':
+        resultado = primeiroNumero + num2;
+        break;
+      case '-':
+        resultado = primeiroNumero - num2;
+        break;
+      case 'X':
+        resultado = primeiroNumero * num2;
+        break;
+      case '/':
+        if (num2 != 0) {
+          resultado = primeiroNumero / num2;
         } else {
-          numero += tecla; // Adiciona o número à string
+          resultado = 0; // Evita divisão por zero
         }
+        break;
+      case '^':
+        resultado = pow(primeiroNumero, num2).toDouble();
+        break;
+      default:
+        resultado = num2;
+    }
 
-        // Substitui a vírgula por ponto
-        numero = numero.replaceAll(',', '.');
-      });
-      break;
+    // Formata o número para não exibir casas decimais se for inteiro
+    if (resultado == resultado.toInt()) {
+      numero = resultado.toInt().toString(); // Se for inteiro, remove as casas decimais
+    } else {
+      numero = resultado.toStringAsFixed(2).replaceAll('.', ','); // Se não, mantém 2 casas decimais
+    }
 
-    // Faz a Adição
-    case '+':
-      setState(() {
-        if (operacao.isNotEmpty) {
-          calcularResultado();
-        }
-        operacao = tecla;
-        primeiroNumero = double.parse(numero);
-        numero = '0'; // Resetando número após a operação
-      });
-      break;
-
-    // Faz a Subtração
-    case '-':
-      setState(() {
-        if (operacao.isNotEmpty) {
-          calcularResultado();
-        }
-        operacao = tecla;
-        primeiroNumero = double.parse(numero);
-        numero = '0'; // Resetando número após a operação
-      });
-      break;
-
-    // Faz a Multiplicação
-    case 'X':
-      setState(() {
-        if (operacao.isNotEmpty) {
-          calcularResultado();
-        }
-        operacao = tecla;
-        primeiroNumero = double.parse(numero);
-        numero = '0'; // Resetando número após a operação
-      });
-      break;
-
-    // Faz a Divisão
-    case '/':
-      setState(() {
-        if (operacao.isNotEmpty) {
-          calcularResultado();
-        }
-        operacao = tecla;
-        primeiroNumero = double.parse(numero);
-        numero = '0'; // Resetando número após a operação
-      });
-      break;
-
-    // Calcula o Resultado
-    case '=':
-      setState(() {
-        calcularResultado();
-        operacao = ''; // Reseta operação após o cálculo
-      });
-      break;
-
-    // Reseta o Valor em 0
-    case 'AC':
-      setState(() {
-        numero = '0';
-        primeiroNumero = 0; // Reseta o primeiro número
-        operacao = ''; // Reseta a operação
-      });
-      break;
-
-    case '<X':
-      setState(() {
-        numero = numero.substring(0, numero.length - 1);
-      });
-      break;
-
-    default:
-      numero += tecla;
-      break;
+    primeiroNumero = 0; // Reseta o primeiro número para evitar cálculos acumulados
   }
-}
-
-// Função para calcular o resultado com base na operação
-void calcularResultado() {
-  double resultado;
-  double num2 = double.parse(numero);
-
-  switch (operacao) {
-    case '+':
-      resultado = primeiroNumero + num2;
-      break;
-    case '-':
-      resultado = primeiroNumero - num2;
-      break;
-    case 'X':
-      resultado = primeiroNumero * num2;
-      break;
-    case '/':
-      if (num2 != 0) {
-        resultado = primeiroNumero / num2;
-      } else {
-        resultado = 0;
-      }
-      break;
-
-    default:
-      resultado = num2; // No caso de um valor simples, usamos o número diretamente
-  }
-
-  // Formata o número para não exibir casas decimais se for inteiro
-  if (resultado == resultado.toInt()) {
-    numero = resultado.toInt().toString(); // Se for inteiro, remove as casas decimais
-  } else {
-    numero = resultado.toStringAsFixed(2).replaceAll('.', ','); // Se não, mantém 2 casas decimais
-  }
-
-  primeiroNumero = 0; // Reseta o primeiro número para evitar cálculos acumulados
-}
 
   @override
   Widget build(BuildContext context) {
@@ -210,6 +187,17 @@ void calcularResultado() {
                     calcular('AC');
                   },
                   child: Text('AC',
+                    style: TextStyle(
+                      fontSize: 48,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    calcular('^');
+                  },
+                  child: Text(
+                    '^',
                     style: TextStyle(
                       fontSize: 48,
                     ),
