@@ -2,8 +2,15 @@
 import 'package:flutter/material.dart';
 
 // Função Principal
-void main(){
+void main() {
   runApp(MyApp());
+}
+
+class Argumentos {
+  final int id;
+  final String nome;
+
+  Argumentos(this.id, this.nome);
 }
 
 // Classe MyApp Herda de StatelessWidget
@@ -16,8 +23,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/' : (context) => Tela1(),
-        '/tela2' : (context) => Tela2(),
+        '/': (context) => Tela1(),
+        Tela2.routeName: (context) => Tela2(),
       },
     );
   }
@@ -31,42 +38,29 @@ class Tela1 extends StatelessWidget {
   // Sobreescreve o Método Build
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color(0xFF2196F3),
-            title: Text('Tela 1',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF2196F3),
+        title: Text(
+          'Tela 1',
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
           ),
-          body: Center(
-            // Botão de Navegação
-            child: ElevatedButton(
-              // Texto do Botão
-              child: Text(
-                'Ir para a Tela 2',
-                ),
-                // Ação ao Pressionar a Tela
-                onPressed: () {
-                  //Navega para a Tela 2
-                  Navigator.pushNamed(context, '/tela2');
-                  /*
-                  // Método sem rotas nomeadas
-                  Navigator.push(
-                    context, 
-                    // Cria a Rota para a Tela 2
-                    MaterialPageRoute(
-                      builder: (context) {
-                      return Tela2();
-                    }),
-                  );*/
-                },
-              ),
-          ),
+        ),
+      ),
+      body: Center(
+        // Botão de Navegação
+        child: ElevatedButton(
+          child: Text('Ir para a Tela 2'),
+          onPressed: () {
+            // Passando os argumentos ao navegar para Tela 2
+            Navigator.pushNamed(
+              context,
+              Tela2.routeName,
+              arguments: Argumentos(1, 'Argumento'),
+            );
+          },
         ),
       ),
     );
@@ -75,43 +69,35 @@ class Tela1 extends StatelessWidget {
 
 // Classe de Tela 2 Herda de StatelessWidget
 class Tela2 extends StatelessWidget {
+  static const routeName = '/tela2';
+
   // Construtor da Tela 2
   const Tela2({super.key});
 
   // Sobreescreve o método build
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            title: Text('Tela 2',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white,
-              ),
-            ),
+    final argumentos = ModalRoute.of(context)?.settings.arguments as Argumentos;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Text(
+          'Tela 2 - ' + (argumentos?.nome ?? ''),
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
           ),
-          body: Center(
-            // Botão de Navegação
-            child: ElevatedButton(
-              // Texto do Botão
-              child: Text(
-                'Ir para a Tela 1',
-                ),
-                // Ação ao Clicar no Botão
-                onPressed: () {
-                  // Retorna a Tela Anterior
-                  Navigator.pushNamed(context, '/');
-                  /*
-                  // Método para retornar sem as rotas nomeadas
-                  Navigator.pop(
-                    context, 
-                  );*/
-                },
-              ),
-          ),
+        ),
+      ),
+      body: Center(
+        // Botão de Navegação
+        child: ElevatedButton(
+          child: Text('Ir para a Tela 1'),
+          onPressed: () {
+            // Retorna a Tela Anterior
+            Navigator.pushNamed(context, '/');
+          },
         ),
       ),
     );
